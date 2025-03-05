@@ -1,0 +1,35 @@
+diff --git a/node_modules/react-native-vision-camera/android/build.gradle b/node_modules/react-native-vision-camera/android/build.gradle
+index 53c8d37..8f10d60 100644
+--- a/node_modules/react-native-vision-camera/android/build.gradle
++++ b/node_modules/react-native-vision-camera/android/build.gradle
+@@ -15,7 +15,7 @@ buildscript {
+   }
+
+  dependencies {
+-    classpath "com.android.tools.build:gradle:8.7.2"
++    classpath "com.android.tools.build:gradle:8.1.0"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+ }
+
+@@ -33,10 +33,8 @@ def isNewArchitectureEnabled() {
+  // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
+  return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+ }
+
+-if (isNewArchitectureEnabled()) {
+-  apply plugin: "com.facebook.react"
+-}
+ apply plugin: "com.android.library"
++
+ apply plugin: "kotlin-android"
+
+ def safeExtGet(prop, fallback) {
+@@ -107,6 +105,7 @@ android {
+  }
+
+  buildFeatures {
++    buildConfig true
+    prefab true
+    prefabPublishing true
+  }
