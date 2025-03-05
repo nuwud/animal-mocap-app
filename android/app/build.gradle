@@ -1,0 +1,154 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+react {
+    // The folder where the react-native NPM package is. Default is ../node_modules/react-native
+    root = rootProject.file("../node_modules/react-native")
+    // The folder where the react-native Codegen package is
+    codegenDir = rootProject.file("../node_modules/@react-native/codegen")
+    // The CLI to use. Uses local CLI if no value is provided
+    cliFile = rootProject.file("../node_modules/react-native/cli.js")
+    // Use the same version of React Native
+    reactNativeDir = rootProject.file("../node_modules/react-native")
+    // The cmake folder. Default is ../node_modules/react-native/ReactAndroid/cmake-utils/default
+    cmakeDir = rootProject.file("../node_modules/react-native/ReactAndroid/cmake-utils/default-cmake-config")
+    // Whether to run the codegen step during Gradle configuration.
+    // Turn this off for runs where you don't need to codegen
+    enableCodegen = true
+    // The build variant to use when compiling JavaScript from TypeScript
+    jsRootDir = rootProject.file("../")
+    jsVmArgs = ["-Duser.language=en", "-Duser.region=US"]
+}
+
+/**
+ * Set this to true to create three separate APKs instead of one:
+ *   - A universal APK that works on all devices
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.
+ */
+def enableSeparateBuildPerCPUArchitecture = false
+
+/**
+ * Run Proguard to shrink the Java bytecode in release builds.
+ */
+def enableProguardInReleaseBuilds = false
+
+/**
+ * Use the international variant of JavaScriptCore
+ * This variant includes the ICU i18n library to make APIs like `Date.toLocaleString`
+ * and `String.localeCompare` work when using with locales other than en-US.
+ * Note that this variant is about 6MiB larger per architecture than the default.
+ */
+def useIntlJsc = false
+
+/**
+ * This allows to customized the Java heap memory values.
+ */
+def javaMaxHeapSize = "2g"
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace "com.animalmocapapp"
+    defaultConfig {
+        applicationId "com.animalmocapapp"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    // applicationVariants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // https://developer.android.com/studio/build/configure-apk-splits.html
+            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def abi = output.getFilter(com.android.build.OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+            }
+
+        }
+    }
+
+    packagingOptions {
+        pickFirst '**/libfbjni.so'
+        pickFirst '**/libc++_shared.so'
+    }
+    
+    dexOptions {
+        javaMaxHeapSize = javaMaxHeapSize
+    }
+}
+
+dependencies {
+    // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:hermes-android")
+
+    // Additional dependencies for TensorFlow
+    implementation "org.tensorflow:tensorflow-lite:2.11.0"
+    implementation "org.tensorflow:tensorflow-lite-support:0.4.3"
+    implementation "org.tensorflow:tensorflow-lite-gpu:2.11.0"
+    implementation "org.tensorflow:tensorflow-lite-select-tf-ops:2.11.0"
+
+    // Camera dependencies
+    implementation "androidx.camera:camera-core:1.3.0"
+    implementation "androidx.camera:camera-camera2:1.3.0"
+    implementation "androidx.camera:camera-lifecycle:1.3.0"
+    implementation "androidx.camera:camera-view:1.3.0"
+    implementation "androidx.camera:camera-extensions:1.3.0"
+
+    // Permission handling
+    implementation "androidx.core:core:1.12.0"
+    implementation "com.guolindev.permissionx:permissionx:1.7.1"
+    
+    // Samsung specific dependencies for better compatibility
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.core:core-ktx:1.12.0"
+    
+    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
+    
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
