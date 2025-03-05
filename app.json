@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "AnimalMoCapApp",
+    "slug": "AnimalMoCapApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#333333"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourusername.animalmocapapp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to detect and track animal movement for motion capture.",
+        "NSPhotoLibraryUsageDescription": "This app requires access to the photo library to save motion capture data."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#333333"
+      },
+      "package": "com.yourusername.animalmocapapp",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "This app uses the camera to detect and track animal movement for motion capture."
+        }
+      ]
+    ]
+  }
+}
