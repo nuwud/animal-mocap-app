@@ -12,6 +12,10 @@ import {
   ScrollView,
 } from 'react-native';
 
+// Import our enhanced PermissionsHandler
+import PermissionsHandler from '../../core/permissions/PermissionsHandler';
+import PermissionsTest from './PermissionsTest';
+
 // Get window dimensions
 const { width, height } = Dimensions.get('window');
 
@@ -27,6 +31,7 @@ const App = () => {
   const [recordingActive, setRecordingActive] = useState(false);
   const [showDebugPanel, setShowDebugPanel] = useState(false);
   const [useRealCamera, setUseRealCamera] = useState(true); // Default to real camera
+  const [showPermissionsTest, setShowPermissionsTest] = useState(false); // New state for permissions test
   
   // Check permissions when app starts
   useEffect(() => {
@@ -38,12 +43,15 @@ const App = () => {
     setLoading(true);
     try {
       console.log('Checking permissions...');
-      // This would typically use PermissionsHandler
-      const status = { camera: false, storage: false };
+      // Use our enhanced PermissionsHandler
+      const status = await PermissionsHandler.checkPermissions();
       setCameraPermission(status.camera);
       setStoragePermission(status.storage);
       setPermissionsChecked(true);
       console.log('Permission status:', status);
+      
+      // Log detailed permission status
+      PermissionsHandler.logPermissionStatus(status);
     } catch (error) {
       console.error('Error checking permissions:', error);
       Alert.alert('Error', 'Failed to check permissions: ' + error.message);
@@ -57,14 +65,16 @@ const App = () => {
     setLoading(true);
     try {
       console.log('Requesting permissions...');
-      // This would typically use PermissionsHandler
-      const result = { camera: true, storage: true };
+      // Use our enhanced PermissionsHandler
+      const status = await PermissionsHandler.requestPermissions();
+      setCameraPermission(status.camera);
+      setStoragePermission(status.storage);
       
-      setCameraPermission(result.camera);
-      setStoragePermission(result.storage);
+      // Log detailed permission status
+      PermissionsHandler.logPermissionStatus(status);
       
       // Show feedback to the user
-      if (!result.camera || !result.storage) {
+      if (!status.camera || !status.storage) {
         Alert.alert(
           'Permissions Required',
           'This app needs camera and storage permissions to function properly. Please grant these permissions in your device settings.',
@@ -119,6 +129,11 @@ const App = () => {
     setShowDebugPanel(!showDebugPanel);
   }, [showDebugPanel]);
 
+  // Function to toggle permissions test
+  const togglePermissionsTest = useCallback(() => {
+    setShowPermissionsTest(!showPermissionsTest);
+  }, [showPermissionsTest]);
+
   // Function to toggle between real and simulated camera
   const toggleCameraMode = useCallback(() => {
     setUseRealCamera(!useRealCamera);
@@ -127,6 +142,22 @@ const App = () => {
     setRecordingActive(false);
   }, [useRealCamera]);
 
+  // If showing permissions test, render it
+  if (showPermissionsTest) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#333" />
+        <View style={styles.header}>
+          <Text style={styles.title}>Permissions Test</Text>
+          <TouchableOpacity onPress={togglePermissionsTest} style={styles.debugButton}>
+            <Text style={styles.debugButtonText}>Back</Text>
+          </TouchableOpacity>
+        </View>
+        <PermissionsTest />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#333" />
@@ -134,9 +165,14 @@ const App = () => {
       {/* App header */}
       <View style={styles.header}>
         <Text style={styles.title}>Mobile Animal MoCap</Text>
-        <TouchableOpacity onPress={toggleDebugPanel} style={styles.debugButton}>
-          <Text style={styles.debugButtonText}>Debug</Text>
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity onPress={togglePermissionsTest} style={[styles.debugButton, styles.permissionsButton]}>
+            <Text style={styles.debugButtonText}>Permissions</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={toggleDebugPanel} style={styles.debugButton}>
+            <Text style={styles.debugButtonText}>Debug</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
@@ -327,6 +363,9 @@ const App = () => {
           <Text style={styles.debugText}>Camera Mode: {useRealCamera ? 'Real' : 'Simulated'}</Text>
           <Text style={styles.debugText}>Camera Visible: {showCamera ? 'Yes' : 'No'}</Text>
           <Text style={styles.debugText}>Recording: {recordingActive ? 'Active' : 'Inactive'}</Text>
+          <Text style={styles.debugText}>Device: {Platform.OS === 'android' ? 'Android' : 'iOS'}</Text>
+          <Text style={styles.debugText}>Version: {Platform.Version}</Text>
+          <Text style={styles.debugText}>Samsung Device: {PermissionsHandler.isSamsungDevice() ? 'Yes' : 'No'}</Text>
         </View>
       )}
     </SafeAreaView>
@@ -350,6 +389,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerButtons: {
+    flexDirection: 'row',
   },
   title: {
     fontSize: 18,
@@ -550,6 +592,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 4,
+  },
+  permissionsButton: {
+    marginRight: 10,
   },
   debugButtonText: {
     color: 'white',
