@@ -1,0 +1,11 @@
+diff --git a/node_modules/react-native-fs/android/build.gradle b/node_modules/react-native-fs/android/build.gradle
+index fa1e4a6..9f5a8a4 100644
+--- a/node_modules/react-native-fs/android/build.gradle
++++ b/node_modules/react-native-fs/android/build.gradle
+@@ -14,6 +14,7 @@ buildscript {
+ apply plugin: 'com.android.library'
+
+ android {
++    namespace "com.rnfs"
+     compileSdkVersion safeExtGet('compileSdkVersion', 26)
+     buildToolsVersion safeExtGet('buildToolsVersion', '26.0.3')
