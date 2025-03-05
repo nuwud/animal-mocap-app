@@ -332,3 +332,268 @@ const App = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
+    paddingBottom: 20,
+  },
+  header: {
+    padding: 15,
+    backgroundColor: '#333',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  content: {
+    padding: 15,
+  },
+  welcomeContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  welcomeTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  logoContainer: {
+    marginVertical: 20,
+    alignItems: 'center',
+  },
+  logoCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  permissionsContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 15,
+    marginVertical: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 10,
+  },
+  permissionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  permissionLabel: {
+    fontSize: 16,
+    color: '#333',
+  },
+  permissionStatus: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 15,
+  },
+  permissionGranted: {
+    backgroundColor: '#4CAF50',
+  },
+  permissionDenied: {
+    backgroundColor: '#F44336',
+  },
+  permissionStatusText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  modeButton: {
+    backgroundColor: '#673AB7',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  controlsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  cameraButton: {
+    flex: 1,
+    marginRight: 10,
+  },
+  recordButton: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: '#4CAF50',
+  },
+  stopButton: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: '#F44336',
+  },
+  activeButton: {
+    backgroundColor: '#1976D2',
+  },
+  disabledButton: {
+    backgroundColor: '#B0BEC5',
+  },
+  cameraContainer: {
+    height: height * 0.4,
+    backgroundColor: '#000',
+    borderRadius: 12,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  placeholderText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  featureContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 15,
+    marginVertical: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
+  featureList: {
+    marginTop: 5,
+  },
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  featureIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#e1f5fe',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  featureIconText: {
+    fontSize: 20,
+  },
+  featureTextContainer: {
+    flex: 1,
+  },
+  featureTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  featureDescription: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 2,
+  },
+  footer: {
+    padding: 10,
+    backgroundColor: '#333',
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#ccc',
+  },
+  debugButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+  },
+  debugButtonText: {
+    color: 'white',
+    fontSize: 12,
+  },
+  debugPanel: {
+    position: 'absolute',
+    top: 70,
+    right: 10,
+    left: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    borderRadius: 10,
+    padding: 15,
+    maxHeight: height * 0.6,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  debugTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 10,
+  },
+  debugText: {
+    fontSize: 14,
+    color: 'white',
+    marginVertical: 3,
+  },
+  closeDebugButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 12,
+  },
+});
+
+export default App;
