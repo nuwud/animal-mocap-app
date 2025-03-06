@@ -4,5 +4,14 @@
  * This file exports the main screens for the application.
  */
 
-// This file will be updated with actual screen exports
-export default {};
+import HomeScreen from './HomeScreen';
+import CaptureScreen from './CaptureScreen';
+import GalleryScreen from './GalleryScreen';
+import SettingsScreen from './SettingsScreen';
+
+export {
+  HomeScreen,
+  CaptureScreen,
+  GalleryScreen,
+  SettingsScreen
+};
