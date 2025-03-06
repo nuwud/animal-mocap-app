@@ -44,8 +44,8 @@
           "cameraPermissionText": "This app uses the camera to detect and track animal movement for motion capture."
         }
       ]
-    ]
-  },
-  "name": "AnimalMoCapApp",
-  "displayName": "Animal MoCap App"
+    ],
+    "newArchEnabled": true,
+    "displayName": "Animal MoCap App"
+  }
 }
