@@ -9,10 +9,12 @@ import { combineReducers } from 'redux';
 
 // Import reducers
 import appReducer from './appSlice';
+import detectionReducer from './detectionSlice';
 
 // Create root reducer
 const rootReducer = combineReducers({
   app: appReducer,
+  detection: detectionReducer,
   // Will add more slices in future commits
 });
 
