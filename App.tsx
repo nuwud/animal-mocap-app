@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
 import SimpleTestApp from './SimpleTestApp';
+import store from './src/app/state/store';
+import { setAppMode } from './src/app/state/appSlice';
+
+// Import our navigator (commented out until we implement the screens)
+// import AppNavigator from './src/app/navigation/AppNavigator';
 
 export default function App() {
   const [useSimpleMode, setUseSimpleMode] = useState(true);
   
+  // Update Redux state when simple mode changes
+  useEffect(() => {
+    store.dispatch(setAppMode(useSimpleMode ? 'simple' : 'full'));
+  }, [useSimpleMode]);
+  
+  // Wrap everything in Redux Provider
+  return (
+    <Provider store={store}>
+      <AppContent 
+        useSimpleMode={useSimpleMode} 
+        setUseSimpleMode={setUseSimpleMode} 
+      />
+    </Provider>
+  );
+}
+
+// Separate component for the app content to keep the Provider at the top level
+function AppContent({ useSimpleMode, setUseSimpleMode }) {
   // We'll use the simple test app by default for now
   // until we resolve the dependency issues
   
@@ -28,13 +52,14 @@ export default function App() {
   
   // If full mode is selected, we'll try to import the full app
   // but for now display a message that it's not ready
+  // In a future update, we'll replace this with the actual AppNavigator
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.errorContainer}>
-        <Text style={styles.errorTitle}>Full App Not Available</Text>
+        <Text style={styles.errorTitle}>Full App In Development</Text>
         <Text style={styles.errorMessage}>
-          The full version of the app requires additional setup.
-          Please follow the instructions in SIMPLE-SETUP.md first.
+          The full version of the app is currently under development.
+          Check back soon for complete functionality.
         </Text>
         <Button 
           title="Return to Simple Mode" 
