@@ -8,17 +8,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
 // Import reducers
-// Will add these in future commits
+import appReducer from './appSlice';
 
 // Create root reducer
 const rootReducer = combineReducers({
-  // Will add slices in future commits
-  app: (state = { initialized: false }, action) => {
-    if (action.type === 'APP_INITIALIZED') {
-      return { ...state, initialized: true };
-    }
-    return state;
-  }
+  app: appReducer,
+  // Will add more slices in future commits
 });
 
 // Create and export store
