@@ -17,6 +17,14 @@ A mobile application for animal motion capture using smartphone sensors and Tens
 - Android Studio (for Android development)
 - Xcode (for iOS development, macOS only)
 
+## Project Status
+
+This project is currently in active development:
+
+- **Stable Release (v1.0)**: A simple test version is available on the `stable-v1` branch
+- **Current Development**: Integrating enhanced functionality from the original research prototype
+- **Upcoming**: Full release with complete animal motion capture capabilities
+
 ## Quick Start (Windows)
 
 For Windows users, we've created a simple setup script to help you get started:
@@ -69,7 +77,13 @@ npm run android
 npm run ios
 
 # Using Expo
-npm start
+npx expo start
+
+# Using Expo with cache clearing
+npx expo start --clear
+
+# Installing Expo dependencies
+npx expo install
 ```
 
 ## Samsung Galaxy S24 Ultra Setup
@@ -128,25 +142,57 @@ cd android
 ./gradlew clean
 cd ..
 
-# Clear Metro bundler cache
+# For React Native CLI
 npm start -- --reset-cache
+
+# For Expo CLI
+npx expo start --clear
 ```
 
 ## Project Structure
 
 ```
 ├── App.tsx              # Main app entry point
+├── SimpleTestApp.js     # Simple version for testing
 ├── src/
 │   ├── app/             # App UI components
-│   │   └── components/  # Reusable UI components
+│   │   ├── components/  # Reusable UI components
+│   │   ├── navigation/  # Navigation configuration
+│   │   └── state/       # State management (Redux)
 │   ├── core/            # Core utilities
 │   │   └── permissions/ # Permission handling logic
 │   ├── data/            # Data models and storage
 │   └── vision/          # Computer vision modules
 ├── android/             # Android platform code
 ├── assets/              # Images and other assets
-└── patches/             # Patches for dependencies
+├── patches/             # Patches for dependencies
+└── setup files          # Various setup scripts and configurations
 ```
+
+## Development Notes
+
+### Expo vs React Native CLI
+
+This project supports both Expo and React Native CLI workflows:
+
+- **Expo Workflow**: Simpler setup, easier testing, but with some limitations
+  ```bash
+  npx expo install  # Install dependencies
+  npx expo start     # Start the development server
+  ```
+
+- **React Native CLI**: More control, direct access to native code
+  ```bash
+  npm install       # Install dependencies
+  npm run android   # Run on Android
+  npm run ios       # Run on iOS
+  ```
+
+### Recommended Workflow
+
+1. Start with the Simple Test App to verify basic functionality
+2. Use the `stable-v1` branch for a stable reference point
+3. For development, work with the `main` branch
 
 ## Contributing
 

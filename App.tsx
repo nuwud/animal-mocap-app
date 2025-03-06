@@ -1,10 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SimpleTestApp from './SimpleTestApp';
+import store from './src/app/state/store';
+import { setAppMode } from './src/app/state/appSlice';
+import AppNavigator from './src/app/navigation/AppNavigator';
 
 export default function App() {
   const [useSimpleMode, setUseSimpleMode] = useState(true);
+  const [showStartupScreen, setShowStartupScreen] = useState(true);
   
+  // Update Redux state when simple mode changes
+  useEffect(() => {
+    store.dispatch(setAppMode(useSimpleMode ? 'simple' : 'full'));
+  }, [useSimpleMode]);
+  
+  // Wrap everything in Redux Provider and SafeAreaProvider
+  return (
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <AppContent 
+          useSimpleMode={useSimpleMode} 
+          setUseSimpleMode={setUseSimpleMode}
+          showStartupScreen={showStartupScreen}
+          setShowStartupScreen={setShowStartupScreen}
+        />
+      </SafeAreaProvider>
+    </Provider>
+  );
+}
+
+// Separate component for the app content to keep the Provider at the top level
+function AppContent({ 
+  useSimpleMode, 
+  setUseSimpleMode,
+  showStartupScreen,
+  setShowStartupScreen
+}) {
   // We'll use the simple test app by default for now
   // until we resolve the dependency issues
   
@@ -26,23 +59,39 @@ export default function App() {
     );
   }
   
-  // If full mode is selected, we'll try to import the full app
-  // but for now display a message that it's not ready
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorTitle}>Full App Not Available</Text>
-        <Text style={styles.errorMessage}>
-          The full version of the app requires additional setup.
-          Please follow the instructions in SIMPLE-SETUP.md first.
-        </Text>
-        <Button 
-          title="Return to Simple Mode" 
-          onPress={() => setUseSimpleMode(true)}
-        />
-      </View>
-    </SafeAreaView>
-  );
+  // Show startup screen first time user switches to full mode
+  if (showStartupScreen) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.startupContainer}>
+          <Text style={styles.startupTitle}>Welcome to Full App Mode</Text>
+          <Text style={styles.startupMessage}>
+            The full version includes navigation between screens,
+            animal detection, and motion capture functionality.
+          </Text>
+          <Text style={styles.startupNote}>
+            Note: This is a development preview. Some features may not be fully
+            implemented yet.
+          </Text>
+          <View style={styles.buttonRow}>
+            <Button 
+              title="Continue to Full App" 
+              onPress={() => setShowStartupScreen(false)}
+            />
+            <View style={styles.buttonSpacer} />
+            <Button 
+              title="Return to Simple Mode" 
+              onPress={() => setUseSimpleMode(true)}
+              color="#666"
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+  
+  // Show the full app with navigation
+  return <AppNavigator />;
 }
 
 const styles = StyleSheet.create({
@@ -60,22 +109,35 @@ const styles = StyleSheet.create({
     color: '#ccc',
     marginBottom: 5,
   },
-  errorContainer: {
+  startupContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
-  errorTitle: {
-    fontSize: 22,
+  startupTitle: {
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#d32f2f',
+    color: '#2196F3',
   },
-  errorMessage: {
+  startupMessage: {
     fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 16,
+    color: '#333',
+  },
+  startupNote: {
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 30,
     color: '#666',
+    fontStyle: 'italic',
+  },
+  buttonRow: {
+    width: '100%',
+  },
+  buttonSpacer: {
+    height: 16,
   },
 });

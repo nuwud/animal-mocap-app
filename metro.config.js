@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const path = require("path");
 const { getDefaultConfig, mergeConfig } = require("@react-native/metro-config");
 
@@ -23,3 +24,10 @@ const config = {
 };
 
 module.exports = mergeConfig(defaultConfig, config);
+=======
+const { getDefaultConfig } = require('expo/metro-config');
+
+const config = getDefaultConfig(__dirname);
+
+module.exports = config;
+>>>>>>> 70f3951b7c6ecad007a1d3b1ee8e42cc4619e312
