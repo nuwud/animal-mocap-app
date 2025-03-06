@@ -89,6 +89,7 @@ For optimal performance on the Samsung Galaxy S24 Ultra:
    - If camera access fails, restart the app and check permissions
    - If TensorFlow models fail to load, check your internet connection as they need to download on first use
    - For storage access issues, make sure to grant all requested permissions
+   - If the app crashes immediately after launch, verify that the correct package name (`com.animalmocapapp`) is used in all configuration files
 
 ## Troubleshooting
 
@@ -110,6 +111,8 @@ For optimal performance on the Samsung Galaxy S24 Ultra:
 4. **Build errors**:
    - Clear project caches using option 5 in the setup script
    - Make sure you have the latest Android SDK and build tools installed
+   - If you see `gradlew.bat is not recognized`, ensure the Gradle wrapper files exist in the android directory
+   - For missing Gradle wrapper files, run `cd android && gradle wrapper` or restore them from the repository
 
 ### Clearing Cache
 

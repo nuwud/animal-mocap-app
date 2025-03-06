@@ -1,0 +1,6 @@
+rootProject.name = 'animal-mocap-app'
+
+apply from: file("../node_modules/@react-native/gradle-plugin/include.gradle")
+
+include ':app'
+includeBuild('../node_modules/@react-native/gradle-plugin')

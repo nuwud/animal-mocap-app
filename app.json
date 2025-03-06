@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourusername.animalmocapapp",
+      "bundleIdentifier": "com.animalmocapapp",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to detect and track animal movement for motion capture.",
         "NSPhotoLibraryUsageDescription": "This app requires access to the photo library to save motion capture data."
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#333333"
       },
-      "package": "com.yourusername.animalmocapapp",
+      "package": "com.animalmocapapp",
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
@@ -45,5 +45,7 @@
         }
       ]
     ]
-  }
+  },
+  "name": "AnimalMoCapApp",
+  "displayName": "Animal MoCap App"
 }

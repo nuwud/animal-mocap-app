@@ -11,26 +11,38 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@expo/cli": "^0.22.18",
+    "@react-native/assets-registry": "^0.78.0",
     "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow-models/pose-detection": "^2.0.0",
     "@tensorflow/tfjs": "^3.11.0",
     "@tensorflow/tfjs-converter": "^3.11.0",
     "@tensorflow/tfjs-core": "^3.11.0",
     "@tensorflow/tfjs-react-native": "^0.8.0",
-    "expo": "~50.0.5",
-    "expo-status-bar": "~1.11.1",
-    "react": "18.2.0",
-    "react-native": "0.73.2",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "expo": "^52.0.37",
+    "expo-status-bar": "~2.0.1",
+    "metro-config": "^0.81.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
+    "react": "^18.3.1",
+    "react-native": "^0.76.7",
     "react-native-fs": "^2.20.0",
     "react-native-permissions": "^3.8.4",
-    "react-native-svg": "^13.14.0",
-    "react-native-vision-camera": "^3.6.16",
-    "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0"
+    "react-native-svg": "^15.8.0",
+    "react-native-vision-camera": "^3.9.2",
+    "react-native-web-log-box": "^0.0.7",
+    "react-native-web-refresh-control": "^1.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.2.45",
+    "@react-native-community/cli": "latest",
+    "@react-native/gradle-plugin": "^0.78.0",
+    "@react-native/metro-config": "^0.78.0",
+    "@types/react": "^18.3.12",
+    "connect": "^3.7.0",
+    "metro": "^0.81.3",
+    "react-native-svg-transformer": "^1.5.0",
     "typescript": "^5.1.3"
   }
 }
