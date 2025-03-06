@@ -2,57 +2,130 @@
  * Gallery Screen
  * 
  * Screen for viewing and managing recorded motion captures.
- * This is a placeholder that will be replaced with the actual implementation.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   Text, 
   StyleSheet, 
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
-
-// Placeholder data
-const MOCK_RECORDINGS = [
-  { id: '1', name: 'Dog walking', date: '2025-03-06', duration: '00:15', animal: 'Dog' },
-  { id: '2', name: 'Cat jumping', date: '2025-03-05', duration: '00:08', animal: 'Cat' },
-  { id: '3', name: 'Dog sitting', date: '2025-03-04', duration: '00:12', animal: 'Dog' },
-  { id: '4', name: 'Cat playing', date: '2025-03-03', duration: '00:22', animal: 'Cat' },
-];
+import { useSelector, useDispatch } from 'react-redux';
+import { selectRecordings } from '../state/detectionSlice';
 
 const GalleryScreen = ({ navigation }) => {
-  const renderItem = ({ item }) => (
-    <TouchableOpacity 
-      style={styles.recordingItem}
-      onPress={() => {
-        // In the future: view recording details
-        alert(`Viewing details for "${item.name}" will be implemented in a future update.`);
-      }}
-    >
-      <View style={styles.recordingPreview}>
-        <Text style={styles.previewText}>{item.animal[0]}</Text>
-      </View>
-      <View style={styles.recordingInfo}>
-        <Text style={styles.recordingName}>{item.name}</Text>
-        <Text style={styles.recordingDetails}>
-          {item.date} • {item.duration}
-        </Text>
-      </View>
-      <View style={styles.recordingActions}>
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionButtonText}>Export</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
+  const dispatch = useDispatch();
+  const recordings = useSelector(selectRecordings);
+  const [selectedRecording, setSelectedRecording] = useState(null);
+  
+  // Format recording duration from milliseconds to MM:SS
+  const formatDuration = (duration) => {
+    const totalSeconds = Math.floor(duration / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+  
+  // Format date for display
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
+  
+  // Handle item press
+  const handleItemPress = (recording) => {
+    setSelectedRecording(recording);
+    Alert.alert(
+      `${recording.animal} Recording`,
+      `Would you like to view or export this recording?`,
+      [
+        {
+          text: 'View',
+          onPress: () => {
+            // In the future: implement viewing functionality
+            Alert.alert('View Recording', 'Viewing functionality will be available in a future update.');
+          },
+        },
+        {
+          text: 'Export',
+          onPress: () => {
+            // In the future: implement export functionality
+            Alert.alert('Export Recording', 'Export functionality will be available in a future update.');
+          },
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => setSelectedRecording(null),
+        },
+      ]
+    );
+  };
+  
+  // Handle delete recording
+  const handleDeleteRecording = (id) => {
+    Alert.alert(
+      'Delete Recording',
+      'Are you sure you want to delete this recording?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            // In the future: implement delete functionality
+            Alert.alert('Delete Recording', 'Delete functionality will be available in a future update.');
+          },
+        },
+      ]
+    );
+  };
+  
+  // Render individual recording item
+  const renderItem = ({ item }) => {
+    const animal = item.animal?.charAt(0).toUpperCase() + item.animal?.slice(1) || 'Unknown';
+    
+    return (
+      <TouchableOpacity 
+        style={styles.recordingItem}
+        onPress={() => handleItemPress(item)}
+      >
+        <View style={styles.recordingPreview}>
+          <Text style={styles.previewText}>{animal[0]}</Text>
+        </View>
+        <View style={styles.recordingInfo}>
+          <Text style={styles.recordingName}>{animal} Motion</Text>
+          <Text style={styles.recordingDetails}>
+            {formatDate(item.timestamp)} • {formatDuration(item.duration)}
+          </Text>
+        </View>
+        <View style={styles.recordingActions}>
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => handleDeleteRecording(item.id)}
+          >
+            <Text style={styles.deleteButtonText}>Delete</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      {MOCK_RECORDINGS.length > 0 ? (
+      {recordings.length > 0 ? (
         <FlatList
-          data={MOCK_RECORDINGS}
+          data={recordings}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
@@ -128,12 +201,12 @@ const styles = StyleSheet.create({
   actionButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#e0f7fa',
+    backgroundColor: '#f6f6f6',
     borderRadius: 4,
   },
-  actionButtonText: {
+  deleteButtonText: {
     fontSize: 12,
-    color: '#0097a7',
+    color: '#d32f2f',
     fontWeight: '500',
   },
   emptyContainer: {
