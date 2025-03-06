@@ -8,11 +8,13 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// We'll create these screens later
-const HomeScreen = () => null;
-const CaptureScreen = () => null;
-const GalleryScreen = () => null;
-const SettingsScreen = () => null;
+// Import screens
+import { 
+  HomeScreen, 
+  CaptureScreen, 
+  GalleryScreen, 
+  SettingsScreen 
+} from '../screens';
 
 // Create stack navigator
 const Stack = createStackNavigator();
