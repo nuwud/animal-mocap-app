@@ -7,9 +7,17 @@ import store from './src/app/state/store';
 import { setAppMode } from './src/app/state/appSlice';
 import AppNavigator from './src/app/navigation/AppNavigator';
 
-export default function App() {
-  const [useSimpleMode, setUseSimpleMode] = useState(true);
-  const [showStartupScreen, setShowStartupScreen] = useState(true);
+// Define interface for AppContent props
+interface AppContentProps {
+  useSimpleMode: boolean;
+  setUseSimpleMode: (value: boolean) => void;
+  showStartupScreen: boolean;
+  setShowStartupScreen: (value: boolean) => void;
+}
+
+const App: React.FC = () => {
+  const [useSimpleMode, setUseSimpleMode] = useState<boolean>(true);
+  const [showStartupScreen, setShowStartupScreen] = useState<boolean>(true);
   
   // Update Redux state when simple mode changes
   useEffect(() => {
@@ -29,15 +37,15 @@ export default function App() {
       </SafeAreaProvider>
     </Provider>
   );
-}
+};
 
 // Separate component for the app content to keep the Provider at the top level
-function AppContent({ 
+const AppContent: React.FC<AppContentProps> = ({ 
   useSimpleMode, 
   setUseSimpleMode,
   showStartupScreen,
   setShowStartupScreen
-}) {
+}) => {
   // We'll use the simple test app by default for now
   // until we resolve the dependency issues
   
@@ -92,7 +100,7 @@ function AppContent({
   
   // Show the full app with navigation
   return <AppNavigator />;
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -141,3 +149,5 @@ const styles = StyleSheet.create({
     height: 16,
   },
 });
+
+export default App;
