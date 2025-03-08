@@ -1,0 +1,9 @@
+This local copy of the react-native-vision-camera module is disabled.
+The app now uses the version from node_modules instead to avoid duplicate module errors.
+
+If you need to make local modifications to the module, please:
+1. Move any changes from this local copy to node_modules version
+2. Use patch-package to create patches for your modifications
+3. Remove this local copy from the modules directory
+
+See issue #12 for more details.
