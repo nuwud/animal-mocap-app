@@ -16,6 +16,7 @@ A mobile application for animal motion capture using smartphone sensors and Tens
 - Expo CLI
 - Android Studio (for Android development)
 - Xcode (for iOS development, macOS only)
+- JDK 17 (recommended, configured in gradle.properties)
 
 ## Project Status
 
@@ -123,16 +124,61 @@ For optimal performance on the Samsung Galaxy S24 Ultra:
    - Check the debug screen for detailed loading status
 
 4. **Build errors**:
-   - Clear project caches using option 5 in the setup script
+   - Use the `reset-environment.bat` script to reset the build environment
    - Make sure you have the latest Android SDK and build tools installed
    - If you see `gradlew.bat is not recognized`, ensure the Gradle wrapper files exist in the android directory
    - For missing Gradle wrapper files, run `cd android && gradle wrapper` or restore them from the repository
 
-### Clearing Cache
+### Specific Error Solutions
 
-If you encounter issues, try clearing the cache:
+1. **Project with path ':react-native-xx' could not be found in project ':app'**:
+   - This is fixed in the latest version by properly configuring paths in settings.gradle
+   - Make sure settings.gradle includes the correct paths to native modules
+   - Run the reset-environment.bat script to clear caches
+
+2. **Plugin with id 'com.android.library' not found**:
+   - Install Android SDK Build Tools through Android Studio
+   - Ensure you have the proper com.android.tools.build:gradle version specified in the build.gradle
+
+3. **Missing Gradle configuration files**:
+   - Run the reset-environment.bat script which will create necessary config files
+   - Alternatively, run `cd android && gradle wrapper` to regenerate Gradle files
+
+4. **withDevTools.tsx errors**:
+   - Clear Metro bundler cache: `npx react-native start --reset-cache`
+   - Make sure app.json is properly configured with "newArchEnabled": false
+   - Use the reset-environment.bat script to clear all caches
+
+5. **Duplicate module definitions**:
+   - The app now prioritizes modules from node_modules over local modules
+   - If you see errors about duplicate modules, use reset-environment.bat to fix them
+   - Avoid editing modules in both places simultaneously
+
+### Using Java 17
+
+This project is configured to use Java 17 by default. To ensure you're using the correct version:
 
 ```bash
+# Check your current Java version
+java -version
+
+# Set JAVA_HOME to point to JDK 17 (Windows PowerShell example)
+$env:JAVA_HOME = "C:\Program Files\Microsoft\jdk-17.0.14.7-hotspot"
+
+# Or add to your system environment variables
+# This is already configured in gradle.properties as:
+# org.gradle.java.home=C:\\Program Files\\Microsoft\\jdk-17.0.14.7-hotspot
+```
+
+### Clearing Cache
+
+If you encounter issues, use the provided reset script:
+
+```bash
+# Run the environment reset script
+reset-environment.bat
+
+# Or manually clear caches:
 # Remove node_modules and reinstall
 rm -rf node_modules
 npm install --legacy-peer-deps
@@ -166,6 +212,7 @@ npx expo start --clear
 ├── android/             # Android platform code
 ├── assets/              # Images and other assets
 ├── patches/             # Patches for dependencies
+├── modules/             # Local module overrides (use with caution)
 └── setup files          # Various setup scripts and configurations
 ```
 
@@ -188,11 +235,51 @@ This project supports both Expo and React Native CLI workflows:
   npm run ios       # Run on iOS
   ```
 
+### Module Structure
+
+The app has a dual module system:
+
+1. **node_modules/** - Standard npm modules installed by package.json
+2. **modules/** - Optional local overrides for development purposes
+
+The app now prioritizes modules from node_modules over local modules to avoid conflicts. If you need to modify a module, consider these approaches:
+
+1. **Recommended: Use patch-package**
+   ```bash
+   # Make changes to the file in node_modules
+   cd node_modules/react-native-some-module/
+   # Edit files as needed
+   cd ../../
+   
+   # Create a patch
+   npx patch-package react-native-some-module
+   
+   # The patch will be applied automatically after npm install
+   ```
+
+2. **Advanced: Use local module override**
+   - Place your modified module in the modules/ directory
+   - Update settings.gradle to point to your local version
+   - Remove any .DO_NOT_USE_LOCAL_MODULE marker files
+   - Note: This approach is more complex and may cause conflicts
+
 ### Recommended Workflow
 
 1. Start with the Simple Test App to verify basic functionality
 2. Use the `stable-v1` branch for a stable reference point
 3. For development, work with the `main` branch
+4. If you encounter build issues, use the reset-environment.bat script
+
+## Configuration Files
+
+Key configuration files in the project:
+
+- `android/settings.gradle` - Configure project dependencies and modules
+- `android/build.gradle` - Main Android build configuration
+- `android/app/build.gradle` - App-specific build configuration
+- `app.json` - Expo configuration
+- `metro.config.js` - Metro bundler configuration
+- `babel.config.js` - Babel transpiler configuration
 
 ## Contributing
 
