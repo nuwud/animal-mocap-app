@@ -15,12 +15,14 @@
     "@react-native/assets-registry": "^0.78.0",
     "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow-models/pose-detection": "^2.0.0",
-    "@tensorflow/tfjs": "^3.11.0",
+    "@tensorflow/tfjs": "^3.21.0",
     "@tensorflow/tfjs-converter": "^3.11.0",
     "@tensorflow/tfjs-core": "^3.11.0",
     "@tensorflow/tfjs-react-native": "^0.8.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "expo": "^52.0.37",
+    "expo-camera": "^16.0.17",
+    "expo-gl": "^15.0.4",
     "expo-status-bar": "~2.0.1",
     "metro-config": "^0.81.3",
     "patch-package": "^8.0.0",
@@ -33,7 +35,8 @@
     "react-native-svg": "^15.8.0",
     "react-native-vision-camera": "^4.6.4",
     "react-native-web-log-box": "^0.0.7",
-    "react-native-web-refresh-control": "^1.1.2"
+    "react-native-web-refresh-control": "^1.1.2",
+    "react-native-worklets-core": "^1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
