@@ -15,7 +15,8 @@ const config = {
     babelTransformerPath: require.resolve("react-native-svg-transformer"),
   },
   resolver: {
-    assetExts: assetExts.filter((ext) => ext !== "svg"),
+    // Add tflite extension to assetExts for TensorFlow Lite models
+    assetExts: [...assetExts.filter((ext) => ext !== "svg"), "tflite"],
     sourceExts: [...sourceExts, "svg"],
     resolverMainFields: ["sbmodern", "react-native", "browser", "main"],
   },

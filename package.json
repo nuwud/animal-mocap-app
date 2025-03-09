@@ -29,9 +29,9 @@
     "react-native": "^0.76.7",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.14.0",
-    "react-native-permissions": "^3.8.4",
+    "react-native-permissions": "^3.10.1",
     "react-native-svg": "^15.8.0",
-    "react-native-vision-camera": "^3.9.2",
+    "react-native-vision-camera": "^4.6.4",
     "react-native-web-log-box": "^0.0.7",
     "react-native-web-refresh-control": "^1.1.2"
   },
