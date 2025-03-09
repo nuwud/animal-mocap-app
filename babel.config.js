@@ -21,6 +21,8 @@ module.exports = function(api) {
           },
         },
       ],
+      // Add worklets core plugin for Vision Camera frame processors
+      ['react-native-worklets-core/plugin'],
     ],
   };
 };
