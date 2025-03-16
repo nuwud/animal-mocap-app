@@ -1,207 +1,77 @@
-# Animal MoCap App
+# Animal MoCap App - Expo Camera Implementation
 
-A mobile application for animal motion capture using smartphone sensors and TensorFlow.
+This branch contains an implementation of the Animal MoCap app using Expo Camera and TensorFlow.js, which provides better compatibility with Android 14 devices, including the Samsung Galaxy S24 Ultra.
 
-## Features
+## Key Features
 
-- Multi-animal detection: Automatically identify multiple dogs and cats in the camera view
-- Skeleton tracking: Track key points and joints to analyze movement patterns
-- Motion recording: Save motion data for animation or research purposes
-- Data export: Export captured motion data in standard formats
+- Uses `expo-camera` instead of `react-native-vision-camera` for better Android 14 compatibility
+- Integrates with TensorFlow.js for machine learning capabilities
+- Automatically detects Android 14 and optimizes processing accordingly
+- Simple UI showing camera feed with pose detection controls
 
-## Requirements
+## Installation
 
-- Node.js (>= 16.x)
-- React Native CLI
-- Expo CLI
-- Android Studio (for Android development)
-- Xcode (for iOS development, macOS only)
-
-## Project Status
-
-This project is currently in active development:
-
-- **Stable Release (v1.0)**: A simple test version is available on the `stable-v1` branch
-- **Current Development**: Integrating enhanced functionality from the original research prototype
-- **Upcoming**: Full release with complete animal motion capture capabilities
-
-## Quick Start (Windows)
-
-For Windows users, we've created a simple setup script to help you get started:
-
-1. Clone the repository
-```bash
-git clone https://github.com/nuwud/animal-mocap-app.git
-cd animal-mocap-app
-```
-
-2. Run the setup script by double-clicking `setup.bat` or running it from the command line:
-```bash
-setup.bat
-```
-
-3. From the menu, select option 1 to perform a clean installation
-
-4. Connect your device via USB (ensure USB debugging is enabled)
-
-5. From the menu, select option 3 to build and run on your Android device
-
-## Manual Setup Instructions
-
-1. Clone the repository
+1. Clone the repository and switch to this branch:
 
 ```bash
 git clone https://github.com/nuwud/animal-mocap-app.git
 cd animal-mocap-app
+git checkout feature/expo-camera-solution
 ```
 
-2. Install dependencies
+2. Install dependencies:
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 ```
 
-3. Apply patches (if needed)
+3. Run the app on your Android device:
 
 ```bash
-npx patch-package
-```
-
-4. Run the application
-
-```bash
-# For Android
 npm run android
-
-# For iOS
-npm run ios
-
-# Using Expo
-npx expo start
-
-# Using Expo with cache clearing
-npx expo start --clear
-
-# Installing Expo dependencies
-npx expo install
 ```
 
-## Samsung Galaxy S24 Ultra Setup
+## Implementation Details
 
-For optimal performance on the Samsung Galaxy S24 Ultra:
+### Components
 
-1. Ensure the app has access to Camera and Storage permissions:
-   - Go to Settings > Apps > Animal MoCap App > Permissions
-   - Enable Camera and Storage permissions
+- **ExpoCameraComponent**: Core camera component using Expo Camera with TensorFlow.js integration
+- **AnimalPoseDetection**: Main component that handles the UI and pose detection logic
 
-2. For better detection performance:
-   - Enable "Performance mode" on your device
-   - Ensure good lighting conditions for better animal detection
-   - Allow the app to fully initialize before using the camera features
+### Android 14 Optimizations
 
-3. Fix common issues:
-   - If camera access fails, restart the app and check permissions
-   - If TensorFlow models fail to load, check your internet connection as they need to download on first use
-   - For storage access issues, make sure to grant all requested permissions
-   - If the app crashes immediately after launch, verify that the correct package name (`com.animalmocapapp`) is used in all configuration files
+The app automatically detects Android 14 devices and applies the following optimizations:
 
-## Troubleshooting
+- Reduces frame processing rate to prevent freezing issues
+- Uses smaller tensor dimensions for better performance
+- Shows a notification when running in optimized mode
 
-### Common Issues
+### TensorFlow.js Integration
 
-1. **Dependency conflicts during installation**:
-   - Use `npm install --legacy-peer-deps` to bypass peer dependency checks
-   - Check that your Node.js version is compatible (v16.x+ recommended)
+The app demonstrates basic TensorFlow.js integration:
 
-2. **Camera permissions not working**:
-   - On Android 13+, ensure both camera and media permissions are granted
-   - Use the Permissions Test screen in the app to verify all required permissions
+- Initializes TensorFlow.js for use with Expo Camera
+- Converts camera frames to tensors for processing
+- Shows the status of TensorFlow.js initialization
 
-3. **TensorFlow models not loading**:
-   - Check you have an active internet connection for the first run
-   - Allow sufficient time for model download (can take a few minutes)
-   - Check the debug screen for detailed loading status
+## Why Expo Camera?
 
-4. **Build errors**:
-   - Clear project caches using option 5 in the setup script
-   - Make sure you have the latest Android SDK and build tools installed
-   - If you see `gradlew.bat is not recognized`, ensure the Gradle wrapper files exist in the android directory
-   - For missing Gradle wrapper files, run `cd android && gradle wrapper` or restore them from the repository
+We switched from react-native-vision-camera to expo-camera for the following reasons:
 
-### Clearing Cache
+1. **Android 14 Compatibility**: Vision Camera has known issues with Android 14 devices, particularly Samsung models
+2. **Simpler Setup**: Expo Camera has fewer native dependencies and is easier to configure
+3. **Reliable Performance**: Expo Camera provides more consistent performance across devices
+4. **TensorFlow.js Integration**: Works well with TensorFlow.js for machine learning tasks
 
-If you encounter issues, try clearing the cache:
+## Known Limitations
 
-```bash
-# Remove node_modules and reinstall
-rm -rf node_modules
-npm install --legacy-peer-deps
+- Lower frame rate compared to Vision Camera (intentional for stability)
+- TensorFlow.js is slightly less efficient than native TensorFlow Lite
+- Animal pose model is not fully implemented yet (placeholders are included)
 
-# Clear Android build cache
-cd android
-./gradlew clean
-cd ..
+## Next Steps
 
-# For React Native CLI
-npm start -- --reset-cache
-
-# For Expo CLI
-npx expo start --clear
-```
-
-## Project Structure
-
-```
-├── App.tsx              # Main app entry point
-├── SimpleTestApp.js     # Simple version for testing
-├── src/
-│   ├── app/             # App UI components
-│   │   ├── components/  # Reusable UI components
-│   │   ├── navigation/  # Navigation configuration
-│   │   └── state/       # State management (Redux)
-│   ├── core/            # Core utilities
-│   │   └── permissions/ # Permission handling logic
-│   ├── data/            # Data models and storage
-│   └── vision/          # Computer vision modules
-├── android/             # Android platform code
-├── assets/              # Images and other assets
-├── patches/             # Patches for dependencies
-└── setup files          # Various setup scripts and configurations
-```
-
-## Development Notes
-
-### Expo vs React Native CLI
-
-This project supports both Expo and React Native CLI workflows:
-
-- **Expo Workflow**: Simpler setup, easier testing, but with some limitations
-  ```bash
-  npx expo install  # Install dependencies
-  npx expo start     # Start the development server
-  ```
-
-- **React Native CLI**: More control, direct access to native code
-  ```bash
-  npm install       # Install dependencies
-  npm run android   # Run on Android
-  npm run ios       # Run on iOS
-  ```
-
-### Recommended Workflow
-
-1. Start with the Simple Test App to verify basic functionality
-2. Use the `stable-v1` branch for a stable reference point
-3. For development, work with the `main` branch
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin feature/my-new-feature`
-5. Submit a pull request
-
-## License
-
-MIT
+- Implement a full animal pose detection model using TensorFlow.js
+- Optimize tensor processing for better performance
+- Add visualization of detected animal poses
+- Implement saving and exporting of motion capture data

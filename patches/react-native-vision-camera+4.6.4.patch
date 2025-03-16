@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-native-vision-camera/android/build.gradle b/node_modules/react-native-vision-camera/android/build.gradle
+index f3c4b38..bd7d59d 100644
+--- a/node_modules/react-native-vision-camera/android/build.gradle
++++ b/node_modules/react-native-vision-camera/android/build.gradle
+@@ -69,6 +69,7 @@ android {
+     compileSdk safeExtGet('compileSdkVersion', 33)
+     buildToolsVersion safeExtGet('buildToolsVersion', '33.0.2')
+     ndkVersion safeExtGet('ndkVersion', '25.1.8937393')
++    namespace "com.mrousavy.camera"
+ 
+     defaultConfig {
+         minSdk safeExtGet('minSdkVersion', 23)
+diff --git a/node_modules/react-native-vision-camera/android/src/main/AndroidManifest.xml b/node_modules/react-native-vision-camera/android/src/main/AndroidManifest.xml
+index 7ed7ac5..9f42a6f 100644
+--- a/node_modules/react-native-vision-camera/android/src/main/AndroidManifest.xml
++++ b/node_modules/react-native-vision-camera/android/src/main/AndroidManifest.xml
+@@ -1,3 +1,4 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.mrousavy.camera">
+ </manifest>
